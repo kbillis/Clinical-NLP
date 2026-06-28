@@ -1,0 +1,6 @@
+transformers>=4.40
+torch>=2.1
+pyyaml>=6.0
+anthropic>=0.25     # notebooks only
+pandas>=2.0         # notebooks only
+matplotlib>=3.8     # notebooks only

@@ -1,0 +1,11 @@
+Patient: Robert Müller | DOB: 1975-08-22 | MRN: 102938 | Phone: 044 567 890 00
+Email: r.mueller@gmail.com
+
+Robert is a 48-year-old male with seropositive rheumatoid arthritis (anti-CCP positive).
+On methotrexate 20mg weekly and folic acid 5mg weekly for 2 years.
+Also taking hydroxychloroquine 200mg twice daily and prednisolone 5mg daily.
+
+DAS28 score: 2.9 (low disease activity). ALT: 38 U/L (borderline).
+CRP: 6 mg/L. Creatinine: 82 µmol/L.
+
+Plan: continue current DMARDs, repeat LFTs in 6 weeks.

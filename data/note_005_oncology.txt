@@ -1,0 +1,13 @@
+Patient: Helen Brandt | DOB: 02/28/1955 | MRN: 778899
+Oncology Clinic | Email: h.brandt@outlook.com
+
+Helen, 69F, known stage IIIA non-small cell lung cancer (adenocarcinoma, EGFR exon 19 deletion).
+Currently on osimertinib 80mg once daily (cycle 8).
+
+CT chest: partial response, primary tumour reduced from 4.2cm to 2.8cm.
+No new metastases. CEA: 12.4 ng/mL (down from 28).
+
+Side effects: grade 1 diarrhoea, mild paronychia. No pneumonitis.
+Performance status: ECOG 1.
+
+Plan: continue osimertinib, next CT in 3 months.

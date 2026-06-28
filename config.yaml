@@ -1,0 +1,30 @@
+mode: "research"
+
+deid:
+  model: "OpenMed/OpenMed-PII-GTEMed-Base-149M-v1"   # clinical PII, 54 types, real scores
+
+deid_check:
+  confidence_threshold: 0.70
+  confidence: true
+  script: true
+
+ner:
+  model: "d4data/biomedical-ner-all"
+  min_score: 0.30
+
+ner_check:
+  review_threshold: 0.60
+
+snomed:
+  enabled: false
+  api_url: "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/concepts"
+  timeout_s: 5
+
+paths:
+  input:     "data/"
+  known_pii: "data/known_pii.json"
+  privacy:   "outputs/privacy/"
+  medical:   "outputs/medical/"
+  logs:      "outputs/logs.jsonl"
+
+schema_version: "0.0.1"

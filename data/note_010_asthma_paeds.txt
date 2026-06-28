@@ -1,0 +1,13 @@
+Patient: Luca Bianchi (minor) | DOB: 09/05/2015 | MRN: 778833
+Parent/Guardian: Sofia Bianchi | Phone: 555 334 9900
+
+Luca, 8M, presented with acute asthma exacerbation. Triggered by viral URTI.
+SpO2 on arrival: 91%. RR: 34/min. Accessory muscle use present. PEFR: 45% predicted.
+
+Classified as severe acute asthma.
+Treated with salbutamol nebulisers every 20 minutes x3, ipratropium bromide nebuliser x1.
+IV hydrocortisone 4mg/kg administered.
+SpO2 improved to 97% after treatment.
+
+Background: persistent moderate asthma. On fluticasone 100mcg twice daily.
+Admitted for 24h observation. Discharged with prednisolone 1mg/kg for 3 days.

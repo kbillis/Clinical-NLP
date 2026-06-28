@@ -1,0 +1,12 @@
+Patient: Amara Osei | DOB: 06/19/1990 | MRN: 112233
+Phone: 555 447 8800 | Email: amara.osei@email.com
+
+Amara, 33F, admitted via ED with fever 39.4°C, tachycardia 118 bpm, hypotension 88/54.
+Source: suspected urinary tract infection. Urine dipstick: nitrites positive, leukocytes 3+.
+
+qSOFA score: 2. Sepsis-3 criteria met.
+Lactate: 3.1 mmol/L. WBC: 18.4. Creatinine: 142 µmol/L (baseline 72).
+Blood cultures x2 drawn. Urine culture pending.
+
+IV piperacillin-tazobactam 4.5g started within 1 hour. 2L IV crystalloid resuscitation.
+ICU referral made. E. coli confirmed on urine culture, sensitive to co-amoxiclav.

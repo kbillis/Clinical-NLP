@@ -1,0 +1,12 @@
+Patient: Wei Zhang | DOB: 11/03/1945 | MRN: 990011
+Phone: 555 663 2211
+
+Wei, 78M, brought in by ambulance with sudden onset right-sided weakness and aphasia.
+Onset: 09:15. CT head: no haemorrhage. NIHSS score: 14.
+MRI DWI: acute left MCA territory infarct.
+
+IV alteplase administered at 09:52 (within 4.5h window). No mechanical thrombectomy indicated.
+BP on admission: 188/102 mmHg. AF detected on telemetry.
+
+Started on aspirin 300mg, then switched to apixaban 5mg twice daily after 48h.
+Commenced physiotherapy and speech and language therapy.

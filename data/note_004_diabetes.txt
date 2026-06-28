@@ -1,0 +1,12 @@
+Patient: Priya Sharma | DOB: 07/11/1980 | MRN: 556677
+Clinic: Endocrinology Outpatient | Phone: 555 874 3300
+
+Priya, 43F, follow-up for type 1 diabetes mellitus on insulin pump therapy.
+Current TDD: 42 units. CGM data shows time-in-range 68% (target >70%).
+HbA1c: 7.4%. Fasting glucose: 6.8 mmol/L.
+
+Complications screen: microalbuminuria detected (ACR 3.8 mg/mmol).
+Retinal screening: background diabetic retinopathy, no treatment required.
+eGFR: 74 mL/min/1.73m2.
+
+Plan: adjust basal rate, refer to nephrology, continue lisinopril 10mg.

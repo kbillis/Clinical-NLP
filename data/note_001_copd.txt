@@ -1,0 +1,10 @@
+Patient: Jane Doe | DOB: 03/14/1962 | MRN: 987654 | Phone: 555 318 2240
+
+Jane was admitted with an acute exacerbation of COPD and pneumonia.
+She has a history of type 2 diabetes and hypertension.
+Current medications: metformin 1000mg twice daily, lisinopril 10mg daily.
+
+Labs: WBC 14.2, CRP 112 mg/L (elevated), HbA1c 8.1%.
+Chest X-ray: right lower lobe consolidation.
+
+Plan: amoxicillin-clavulanate 875mg for 7 days, prednisolone 40mg for 5 days.

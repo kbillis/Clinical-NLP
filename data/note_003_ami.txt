@@ -1,0 +1,11 @@
+Patient: Carlos Rivera | DOB: 09/22/1958 | MRN: 334455
+Phone: 555 221 4400 | Email: crivera@yahoo.com
+
+Carlos, 65M, presented to ED with acute chest pain radiating to left arm, diaphoresis.
+ECG: ST-elevation in leads II, III, aVF consistent with inferior STEMI.
+Troponin I: 4.8 ng/mL (markedly elevated). BNP: 320 pg/mL.
+
+Emergency PCI performed. Drug-eluting stent placed in RCA.
+Started on aspirin 100mg, ticagrelor 90mg twice daily, atorvastatin 80mg, ramipril 5mg.
+
+Risk factors: hypertension, hyperlipidaemia, smoking (30 pack-years), family history of CAD.

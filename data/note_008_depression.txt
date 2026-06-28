@@ -1,0 +1,13 @@
+Patient: Thomas Klein | DOB: 04/30/1988 | MRN: 334411
+Phone: 555 229 6600
+
+Thomas, 35M, referred by GP for moderate-severe depression (PHQ-9: 18).
+Symptoms: low mood, anhedonia, insomnia, reduced concentration for 4 months.
+No active suicidal ideation. No psychotic features.
+
+Previous trial of sertraline 50mg — discontinued due to GI side effects.
+Started on escitalopram 10mg, to increase to 20mg after 2 weeks.
+Referred to CBT waiting list.
+
+Risks: isolated social situation, recent job loss. Safety plan documented.
+Review in 4 weeks or sooner if deterioration.

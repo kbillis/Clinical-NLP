@@ -1,0 +1,12 @@
+Patient: Maria Santos | DOB: 08/14/1965 | MRN: 556611
+Email: m.santos@proton.me | Phone: 555 881 0033
+
+Maria, 58F, CKD stage 3b secondary to hypertensive nephropathy.
+eGFR: 36 mL/min/1.73m2 (down from 41 last year). Creatinine: 148 µmol/L.
+Potassium: 5.2 mmol/L (mildly elevated). Haemoglobin: 10.8 g/dL (normocytic anaemia).
+
+BP: 148/92 mmHg — suboptimal. On amlodipine 10mg and losartan 100mg.
+Proteinuria: ACR 62 mg/mmol.
+
+Plan: add dapagliflozin 10mg for renoprotection, refer to dietitian for low-potassium diet.
+EPO therapy deferred. Monitor eGFR and electrolytes in 3 months.
