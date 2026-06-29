@@ -1,7 +1,6 @@
 """Soft check after NER. Never blocks. Adds review flags and quality signal."""
 
 import logging
-from pipeline import snomed
 
 log = logging.getLogger("clinical_nlp")
 
@@ -11,20 +10,15 @@ def run(entities: list[dict], cfg: dict) -> dict:
     warnings = []
 
     for e in entities:
-        e["review"] = e["score"] < threshold
-        if e["review"]:
+        e["REVIEW"] = e["score"] < threshold
+        if e["REVIEW"]:
             log.debug("ner_check: '%s' flagged for review (score=%.3f)", e["text"], e["score"])
 
         if cfg["snomed"]["enabled"]:
-            e["snomed"] = snomed.lookup(e["text"], cfg)
-            if e["snomed"] is None:
-                log.warning("ner_check: no SNOMED concept found for '%s'", e["text"])
-                warnings.append(f"no SNOMED concept for '{e['text']}'")
-            else:
-                log.debug("ner_check: SNOMED resolved '%s' → %s",
-                          e["text"], e["snomed"]["concept_id"])
+            log.error("TODO:checking SNOMED. This is not yet implemented, but it is an good feature.")
+            pass
 
-    flagged = sum(1 for e in entities if e["review"])
+    flagged = sum(1 for e in entities if e["REVIEW"])
     total = len(entities)
     ratio = flagged / max(total, 1)
     quality = "POOR" if (total == 0 or ratio > 0.5) else "WARNING" if warnings else "GOOD"

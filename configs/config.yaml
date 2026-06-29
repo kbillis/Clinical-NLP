@@ -1,12 +1,13 @@
 mode: "research"
 
 deid:
-  model: "OpenMed/OpenMed-PII-GTEMed-Base-149M-v1"   # clinical PII, 54 types, real scores
+  model: "OpenMed/OpenMed-PII-GTEMed-Base-149M-v1"   
 
 deid_check:
-  confidence_threshold: 0.70
-  confidence: true
+  low_threshold:  0.60   # below this → REVIEW
+  high_threshold: 0.85   # above this → confident
   script: true
+  regex: true
 
 ner:
   model: "d4data/biomedical-ner-all"
@@ -17,12 +18,10 @@ ner_check:
 
 snomed:
   enabled: false
-  api_url: "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/concepts"
-  timeout_s: 5
+
 
 paths:
   input:     "data/"
-  known_pii: "data/known_pii.json"
   privacy:   "outputs/privacy/"
   medical:   "outputs/medical/"
   logs:      "outputs/logs.jsonl"

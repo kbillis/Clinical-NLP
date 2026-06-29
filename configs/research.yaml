@@ -4,9 +4,10 @@ deid:
   model: "OpenMed/OpenMed-PII-GTEMed-Base-149M-v1"
 
 deid_check:
-  confidence_threshold: 0.50   # lower — catch more for review
-  confidence: true
+  low_threshold: 0.20
+  high_threshold: 0.90
   script: true
+  regex: true
 
 ner:
   model: "d4data/biomedical-ner-all"
@@ -17,12 +18,9 @@ ner_check:
 
 snomed:
   enabled: false
-  api_url: "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/concepts"
-  timeout_s: 5
 
 paths:
   input:     "data/"
-  known_pii: "data/known_pii.json"
   privacy:   "outputs/privacy/"
   medical:   "outputs/medical/"
   logs:      "outputs/logs.jsonl"

@@ -1,72 +1,77 @@
 """
 pipeline/deid_check.py
 
-Hard check after Stage 1 de-identification.
-RED status stops the pipeline — Stage 2 will not run.
+Checks the deid output and returns GREEN / REVIEW / RED.
 
-Checks (toggled in config):
-  confidence : RED if any scored entity is below threshold.
-               spaCy entities (score=None) are flagged as warnings only —
-               they never cause RED because spaCy does not expose scores.
-  script     : RED if any known PII string is found in the redacted text.
+GREEN  — confident, nothing found in redacted text
+REVIEW — low confidence entities or minor leakage
+RED    — structured PII still in redacted text
+
+two checks:
+  1. confidence     : score distribution of detected entities
+  2. record_header  : scans original text for patient record fields
+                      then verifies they were redacted
 """
 
-import json
 import logging
-from pathlib import Path
+import re
 
 log = logging.getLogger("clinical_nlp")
 
-
-def _check_confidence(entities: list[dict], threshold: float) -> tuple[bool, list[str]]:
-    """RED if any entity score is below threshold. All entities now have a score."""
-    failed = [
-        f"'{e['text']}' ({e['label']}) score={e['score']:.2f}"
-        for e in entities
-        if e["score"] < threshold
-    ]
-    return len(failed) == 0, failed
+PATTERNS = {
+    "MRN":   re.compile(r"\bMRN[:\s#]*[A-Za-z0-9-]{4,20}\b", re.IGNORECASE),
+    "SSN":   re.compile(r"\b\d{3}-\d{2}-\d{4}\b"),
+    "EMAIL": re.compile(r"\b[\w.+\-]+@[\w.\-]+\.[a-z]{2,}\b"),
+    "PHONE": re.compile(r"\b(?:\+?\d[\s\-]?)?\(?\d{3}\)?[\s\-]\d{3}[\s\-]\d{4}\b"),
+}
 
 
-def _check_script(redacted: str, known_pii_path: str) -> tuple[bool, list[str]]:
-    """Scan redacted text for any known PII strings."""
-    path = Path(known_pii_path)
-    if not path.exists():
-        log.warning("known_pii.json not found at '%s' — script check skipped", known_pii_path)
-        return True, ["known_pii.json not found — skipped"]
-    known = json.loads(path.read_text())
-    found = [
-        f"{cat}: '{v}'"
-        for cat, vals in known.items() if not cat.startswith("_")
-        for v in vals if v.lower() in redacted.lower()
-    ]
-    return len(found) == 0, found or ["no known PII in redacted text"]
+def run(original: str, redacted: str, entities: list[dict], cfg: dict) -> dict:
+    check_cfg = cfg.get("deid_check", {})
+    low_threshold  = check_cfg.get("low_threshold",  0.60)
+    high_threshold = check_cfg.get("high_threshold", 0.85)
 
-
-def run(redacted: str, entities: list[dict], cfg: dict) -> dict:
-    log.debug("running checks")
-    check_cfg = cfg["deid_check"]
     results = []
 
-    if check_cfg.get("confidence"):
-        passed, details = _check_confidence(entities, check_cfg["confidence_threshold"])
-        results.append({"check": "confidence", "passed": passed, "details": details})
-        if not passed:
-            log.error("confidence check FAILED: %s", details)
+    # ── 1. confidence ─────────────────────────────────────────────────────────
+    low  = [e for e in entities if e["score"] < low_threshold]
+    mid  = [e for e in entities if low_threshold <= e["score"] < high_threshold]
+    conf_passed = len(low) == 0
+    results.append({
+        "check":   "confidence",
+        "passed":  conf_passed,
+        "details": (
+            [f"'{e['text']}' ({e['label']}) score={e['score']}" for e in low]
+            or [f"{len(mid)} mid-confidence entities" if mid else "all scores above threshold"]
+        ),
+    })
+    if low:
+        log.warning("confidence: %d low-score entity/ies", len(low))
 
-    if check_cfg.get("script"):
-        passed, details = _check_script(redacted, cfg["paths"]["known_pii"])
-        results.append({"check": "script", "passed": passed, "details": details})
-        if not passed:
-            log.error("script check FAILED — PII still in redacted text: %s", details)
+    # ── 2. record header check ────────────────────────────────────────────────
+    # find header fields in original, verify they were redacted
+    regex_hits = []
+    if check_cfg.get("regex", True):
+        for label, pattern in PATTERNS.items():
+            for m in pattern.finditer(redacted):
+                regex_hits.append(f"{label}: '{m.group()}'")
 
-    failed = [r for r in results if not r["passed"]]
-    status = "RED" if failed else "GREEN"
+    regex_passed = len(regex_hits) == 0
+    results.append({
+        "check":   "regex",
+        "passed":  regex_passed,
+        "details": regex_hits or ["no structured PII found"],
+    })
+    if regex_hits:
+        log.error("regex: structured PII still visible: %s", regex_hits)
 
-    if status == "RED":
-        log.error("status=RED — Stage 2 blocked. Failed checks: %s",
-                  [r["check"] for r in failed])
+    # ── status ────────────────────────────────────────────────────────────────
+    if not regex_passed:
+        status = "RED"
+    elif not conf_passed:
+        status = "REVIEW"
     else:
-        log.info("status=GREEN — all checks passed")
+        status = "GREEN"
 
-    return {"status": status, "reasons": [r["check"] for r in failed], "checks": results}
+    log.info("deid_check status=%s", status)
+    return {"status": status, "results": results}

@@ -1,0 +1,4 @@
+Patient: John Smith
+
+John Smith presented with mild asthma.
+Medication: salbutamol inhaler as needed.

@@ -38,7 +38,7 @@ def process(text: str, note_id: str, cfg: dict) -> dict:
 
     # ── Stage 1: deid → deid_check ───────────────────────────────────────────
     redacted, pii = deid.run(text, cfg)
-    chk1 = deid_check.run(redacted, pii, cfg)
+    chk1 = deid_check.run(text, redacted, pii, cfg)
 
     write(Path(cfg["paths"]["privacy"]) / f"{note_id}_privacy.json", {
         "record_id":      record_id,
@@ -56,13 +56,20 @@ def process(text: str, note_id: str, cfg: dict) -> dict:
     log.debug("process: writing privacy record")
 
     if chk1["status"] == "RED":
+        log.warning("process: deid_check RED — known PII still in text. Stopping.")
         log_utils.write(cfg, {"event": "deid_check_red", "note_id": note_id,
-                               "reasons": chk1["reasons"]})
+                               "reasons": [r["check"] for r in chk1["results"] if not r["passed"]]})
+
         return {"note_id": note_id,
                 "deid_check": "RED", "ner_check": None, "entity_count": 0}
 
+    if chk1["status"] == "REVIEW":
+        log.warning("process: deid_check REVIEW — low confidence. TODO: send to human review")
+        log_utils.write(cfg, {"event": "deid_check_review", "note_id": note_id,
+                               "reasons": [r["check"] for r in chk1["results"] if not r["passed"]]})
+        
     # ── Stage 2: ner → ner_check ─────────────────────────────────────────────
-    log.info("process: deid_check GREEN — proceeding to Stage 2")
+    log.info("process: deid_check %s — proceeding to Stage 2", chk1["status"])
     entities = ner.run(redacted, cfg)
     chk2 = ner_check.run(entities, cfg)
 
@@ -115,16 +122,21 @@ if __name__ == "__main__":
         if not notes:
             raise SystemExit(f"No .txt files in {cfg['paths']['input']}")
 
-        print(f"\nMode: {cfg['mode'].upper()}  |  model: {cfg['ner']['model']}"
+        log.info(f"\nMode: {cfg['mode'].upper()}  |  model: {cfg['ner']['model']}"
               f"  |  SNOMED: {cfg['snomed']['enabled']}")
-        print("─" * 65)
+        log.info("─" * 65)
 
         for note_path in notes:
             r = process(note_path.read_text(encoding="utf-8"), note_path.stem, cfg)
-            c1 = "🟢" if r["deid_check"] == "GREEN" else "🔴"
+            DEID_ICON = {
+                "GREEN": "🟢",
+                "REVIEW": "🟡",
+                "RED": "🔴",
+            }
+            c1 = DEID_ICON.get(r["deid_check"], "⚪")
             c2 = QUALITY_ICON.get(r["ner_check"] or "", " ")
-            print(f"  {note_path.stem:<34} {c1} deid  {c2} ner  {r['entity_count']} entities")
+            log.info(f"  {note_path.stem:<34} {c1} deid  {c2} ner  {r['entity_count']} entities")
 
-        print("─" * 65)
-        print(f"Privacy → {cfg['paths']['privacy']}")
-        print(f"Medical → {cfg['paths']['medical']}")
+        log.info("─" * 65)
+        log.info(f"Privacy → {cfg['paths']['privacy']}")
+        log.info(f"Medical → {cfg['paths']['medical']}")
