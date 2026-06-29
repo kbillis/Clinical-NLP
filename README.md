@@ -1,5 +1,10 @@
 # Clinical NLP Pipeline — MVP
 
+## Overview
+![ChatGPT Image](./docs/pipeline_overview.png)
+
+## Pipeline
+
 Two-stage pipeline for clinical note processing with configurable checks between stages.
 
 ```text
@@ -42,8 +47,6 @@ python main.py --config configs/config.yaml
 # single note
 python main.py --config configs/config.yaml --note data/note_001_copd.txt
 
-# research mode
-python main.py --config configs/research.yaml
 ```
 
 ## Project Structure
